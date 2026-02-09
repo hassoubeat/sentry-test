@@ -13,6 +13,17 @@ SentryのRelease機能を検証するためのシンプルな静的サイトで�
 
 ## セットアップ
 
+### 0. GitHub Pages の有効化（初回のみ・必須）
+
+このリポジトリを GitHub Pages で公開するには、**初回のみ**以下の手順で Pages を有効化してください。
+
+1. GitHub でリポジトリを開く
+2. **Settings** → **Pages** を開く
+3. **Build and deployment** の **Source** で **「GitHub Actions」** を選択する
+4. 保存する（「Deploy from a branch」のままの場合は変更なしで OK）
+
+> **注意**: ワークフローから自動で Pages を有効化することはできません（`Resource not accessible by integration` のため）。必ず上記の手動設定を行ってから、main への push やワークフローの実行を行ってください。
+
 ### 1. 依存関係のインストール
 
 ```bash
