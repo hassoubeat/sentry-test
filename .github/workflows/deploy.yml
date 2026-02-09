@@ -56,17 +56,17 @@ jobs:
       # GitHub統合を使用してSentryリリースを作成
       # GitHub統合がインストールされていることを前提としています
       # これにより、Suspect Commits、Stack Trace Linking、PRコメントなどの機能が利用可能になります
-      - name: Create Sentry release
-        uses: getsentry/action-release@v1
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-        with:
-          version: ${{ github.sha }}
-          environment: ${{ env.ENVIRONMENT }}
-          sourcemaps: "./dist"
-          set_commits: "auto"
+      # - name: Create Sentry release
+      #   uses: getsentry/action-release@v1
+      #   env:
+      #     SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      #     SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+      #     SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+      #   with:
+      #     version: ${{ github.sha }}
+      #     environment: ${{ env.ENVIRONMENT }}
+      #     sourcemaps: "./dist"
+      #     set_commits: "auto"
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
