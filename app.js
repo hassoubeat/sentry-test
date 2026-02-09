@@ -9,7 +9,8 @@ if (SENTRY_DSN) {
         dsn: SENTRY_DSN,
         environment: getEnvironment(),
         release: getReleaseVersion(), // リリースバージョンはGitHub統合と連携してエラーを追跡
-        tracesSampleRate: 1.0,
+        sampleRate: 1.0, // エラーイベントのサンプリング
+        tracesSampleRate: 1.0, // パフォーマンストランザクションのサンプリング
         beforeSend(event, hint) {
             // ログに記録
             addLog('Sentry Event', event, 'info');
