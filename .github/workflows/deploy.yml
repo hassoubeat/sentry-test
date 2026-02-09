@@ -1,0 +1,88 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # 環境判定ロジックを一元管理
+      # mainブランチ = production, その他 = staging
+      - name: Determine environment
+        id: env
+        run: |
+          if [[ "${{ github.ref }}" == refs/heads/main ]]; then
+            echo "ENVIRONMENT=production" >> $GITHUB_ENV
+            echo "environment=production" >> $GITHUB_OUTPUT
+          else
+            echo "ENVIRONMENT=staging" >> $GITHUB_ENV
+            echo "environment=staging" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build
+        env:
+          RELEASE_VERSION: ${{ github.sha }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          ENVIRONMENT: ${{ env.ENVIRONMENT }}
+        run: npm run build
+
+      # GitHub統合を使用してSentryリリースを作成
+      # GitHub統合がインストールされていることを前提としています
+      # これにより、Suspect Commits、Stack Trace Linking、PRコメントなどの機能が利用可能になります
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          version: ${{ github.sha }}
+          environment: ${{ env.ENVIRONMENT }}
+          sourcemaps: "./dist"
+          set_commits: "auto"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

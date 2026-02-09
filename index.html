@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentry Release 検証サイト</title>
+    <link rel="icon" href="https://sentry.io/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Sentry Release 検証サイト</h1>
+            <p class="subtitle">GitHub Pagesでホストされたシンプルな静的サイト</p>
+        </header>
+
+        <main>
+            <section class="info-section">
+                <h2>リリース情報</h2>
+                <div class="info-card">
+                    <p><strong>バージョン:</strong> <span id="version">-</span></p>
+                    <p><strong>環境:</strong> <span id="environment">-</span></p>
+                    <p><strong>ビルド日時:</strong> <span id="buildTime">-</span></p>
+                </div>
+            </section>
+
+            <section class="actions-section">
+                <h2>テストアクション</h2>
+                <div class="button-group">
+                    <button id="testError" class="btn btn-danger">エラーを発生させる</button>
+                    <button id="testMessage" class="btn btn-info">メッセージを送信</button>
+                    <button id="testException" class="btn btn-warning">例外をスロー</button>
+                </div>
+            </section>
+
+            <section class="log-section">
+                <h2>ログ</h2>
+                <div id="logContainer" class="log-container">
+                    <p class="log-placeholder">ログがここに表示されます...</p>
+                </div>
+                <button id="clearLog" class="btn btn-secondary">ログをクリア</button>
+            </section>
+        </main>
+
+        <footer>
+            <p>このサイトはSentryのRelease機能を検証するために作成されました。</p>
+        </footer>
+    </div>
+
+    <script src="https://browser.sentry-cdn.com/7.91.0/bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

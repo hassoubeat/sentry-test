@@ -1,0 +1,21 @@
+{
+  "name": "sentry-release-test",
+  "version": "1.0.0",
+  "description": "Sentry Release機能を検証するためのシンプルな静的サイト",
+  "scripts": {
+    "build": "node build.js",
+    "serve": "npm run build && http-server dist -p 8000 -o"
+  },
+  "keywords": [
+    "sentry",
+    "release",
+    "github-pages"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "fs-extra": "^11.1.1",
+    "http-server": "^14.1.1"
+  }
+}
