@@ -48,7 +48,7 @@ jobs:
 
       - name: Build
         env:
-          RELEASE_VERSION: ${{ github.sha }}
+          RELEASE_VERSION: ${{ env.ENVIRONMENT }}-${{ github.sha }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           ENVIRONMENT: ${{ env.ENVIRONMENT }}
         run: npm run build
