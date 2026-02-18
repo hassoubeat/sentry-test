@@ -63,7 +63,7 @@ jobs:
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
-          version: ${{ github.sha }}
+          version: ${{ env.ENVIRONMENT }}-${{ github.sha }}
           environment: ${{ env.ENVIRONMENT }}
           sourcemaps: "./dist"
           set_commits: "auto"
